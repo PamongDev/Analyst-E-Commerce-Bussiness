@@ -88,7 +88,7 @@ def create_delivery_status(df):
 def format_number(number):
     return f"{number:,}".replace(",", ".")
 
-data = pd.read_csv('all_df_lite.csv.gz', compression='gzip')
+data = pd.read_csv('Dashboard/all_df_lite.csv.gz', compression='gzip')
 
 sum_customer, sum_seller = create_sum_customer_seller(data)
 sum_product, sum_order, sum_price = create_sum_product_order_price(data)
