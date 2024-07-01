@@ -89,6 +89,24 @@ def format_number(number):
     return f"{number:,}".replace(",", ".")
 
 data = pd.read_csv('Dashboard/all_df_lite.csv.gz', compression='gzip')
+tanggal1, tanggal2 = st.columns(2)
+min_date = datetime(2016, 9, 15)
+max_date = datetime(2018, 1, 1)
+data['order_purchase_timestamp'] = pd.to_datetime(data['order_purchase_timestamp'])
+with tanggal1:
+    start = st.date_input(
+        'Pilih tanggal awal:',
+        value=min_date, min_value=min_date, max_value=max_date)
+    
+with tanggal2:
+    ends = st.date_input(
+        'Pilih tanggal akhir:',
+        value=max_date, min_value=min_date, max_value=max_date)
+
+if start > ends:
+    st.error('Tanggal mulai tidak boleh lebih besar dari tanggal akhir')
+else:
+    data = data[(data['order_purchase_timestamp'] >= pd.to_datetime(start)) & (data['order_purchase_timestamp'] <= pd.to_datetime(ends))]
 
 sum_customer, sum_seller = create_sum_customer_seller(data)
 sum_product, sum_order, sum_price = create_sum_product_order_price(data)
